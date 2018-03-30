@@ -4,6 +4,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 // Process only when method is POST
 if($method == 'POST'){
+	
+	session_start();
 	$requestBody = file_get_contents('php://input');
 	$json = json_decode($requestBody);
 
@@ -23,6 +25,7 @@ if($method == 'POST'){
 	else if(isset($firstname))
 	{
 		$speech = "Got it".' '.$firstname.' '."what is your last Name?";
+		$_SESSION["firstname"]=$firstname;
 		setcookie('firstname', $firstname, time() + (86400 * 30), "/"); // 86400 = 1 day
 	}
 	
@@ -34,6 +37,7 @@ if($method == 'POST'){
 	{
 		
 		$speech = "Ok".' '.$_COOKIE[$firstname].' '."what is your annual household income?";
+		$_SESSION["age"]=$age;
 		setcookie('age', $age, time() + (86400 * 30), "/"); // 86400 = 1 day
 		
 	}
@@ -41,12 +45,13 @@ if($method == 'POST'){
 	{
 		
 		$speech = "how many members do you have  in your household, including you?";
+		$_SESSION["householdincome"]=$householdincome;
 		setcookie('householdincome', $householdincome, time() + (86400 * 30), "/"); // 86400 = 1 day
 		
 	}
 	else if(isset($householdnumber))
 	{
-		$speech	= "Thanks" .$_COOKIE[$firstname]. "based on the information provided by you, you have a" .$householdnumber ."member household with". $_COOKIE[$householdincome] . "$ annual income, Your application has been created, for future references, your application number is".$applicationnumber. "Someone from our office will connect with you soon. Have a great day ahead!";
+		$speech	= "Thanks" .$_SESSION[$firstname]. "based on the information provided by you, you have a" .$_SESSION[$householdnumber]."member household with". $_SESSION[$householdincome] . "$ annual income, Your application has been created, for future references, your application number is".$applicationnumber. "Someone from our office will connect with you soon. Have a great day ahead!";
 		
 	}
 	else{
