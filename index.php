@@ -52,7 +52,8 @@ if($method == 'POST'){
 	else if(isset($householdnumber))
 	{
 		$_SESSION["householdincome"]=$householdnumber;
-		$speech	= "Thanks".' ' .$_SESSION["firstname"].' '. "based on the information provided by you, you have a".' ' .$householdnumber."member household with".' ' . $_SESSION["householdincome"].' ' ."$ annual income, Your application has been created, for future references, your application number is".$applicationnumber.' '. "Someone from our office will connect with you soon. Have a great day ahead!";
+		
+		$speech	= "Thanks".' ' .$_SESSION["firstname"].' '. "based on the information provided by you, you have a".' ' .$householdnumber.' '."member household with".' ' . $_SESSION["householdincome"].' ' ."$ annual income, Your application has been created, for future references, your application number is".' '.mt_rand().' '. "Someone from our office will connect with you soon. Have a great day ahead!";
 		
 	}
 	else{
