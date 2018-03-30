@@ -16,7 +16,7 @@ if($method == 'POST'){
 	$applicationnumber  = "1 1 2 2 3 4 5 1";
 	
 	
-	if(isset($startapp))
+	if(isset($startapp) && ($startapp=="YES" || $startapp=="yes" )  )
 	{
 		$speech = "Great, please tell me your first Name?";
 	}
@@ -37,14 +37,14 @@ if($method == 'POST'){
 		setcookie('age', $age, time() + (86400 * 30), "/"); // 86400 = 1 day
 		
 	}
-	else if(is_null($householdincome))
+	else if(isset($householdincome))
 	{
 		
 		$speech = "how many members do you have  in your household, including you?";
 		setcookie('householdincome', $householdincome, time() + (86400 * 30), "/"); // 86400 = 1 day
 		
 	}
-	else if(is_null($householdnumber))
+	else if(isset($householdnumber))
 	{
 		$speech	= "Thanks" .$_COOKIE[$firstname]. "based on the information provided by you, you have a" .$householdnumber ."member household with". $_COOKIE[$householdincome] . "$ annual income, Your application has been created, for future references, your application number is".$applicationnumber. "Someone from our office will connect with you soon. Have a great day ahead!";
 		
