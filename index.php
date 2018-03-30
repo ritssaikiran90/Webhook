@@ -7,28 +7,52 @@ if($method == 'POST'){
 	$requestBody = file_get_contents('php://input');
 	$json = json_decode($requestBody);
 
-	$text = $json->result->parameters->text;
-
-	switch ($text) {
-		case 'hi':
-			$speech = "Hi, Nice to meet you";
-			break;
-			
-		case 'yes':
-			$speech = "Great, please tell me your first Name?";
-			break;
-			
-		case 'bye':
-			$speech = "Bye, good night";
-			break;
-
-		case 'anything':
-			$speech = "Yes, you can type anything here.";
-			break;
+	$startapp 			= $json->result->parameters->startapp;
+	$firstname 			= $json->result->parameters->firstname;
+	$lastname 			= $json->result->parameters->lastname;
+	$age 				= $json->result->parameters->age;
+	$householdincome 	= $json->result->parameters->householdincome;
+	$householdnumber 	= $json->result->parameters->householdnumber;
+	$applicationnumber  = "1 1 2 2 3 4 5 1";
+	
+	
+	if(isset($startapp))
+	{
+		$speech = "Great, please tell me your first Name?";
+	}
+	else if(isset($firstname))
+	{
+		$speech = "Got it".' '.$firstname.' '."what is your last Name?";
+		setcookie('firstname', $firstname, time() + (86400 * 30), "/"); // 86400 = 1 day
+	}
+	
+	else if(isset($lastname))
+	{
+		$speech = "What is your age?".' '.$_COOKIE[$firstname];
+	}	
+	else if(isset($age))
+	{
 		
-		default:
-			$speech = $text +"tell me your last name";
-			break;
+		$speech = "Ok".' '.$_COOKIE[$firstname].' '."what is your annual household income?";
+		setcookie('age', $age, time() + (86400 * 30), "/"); // 86400 = 1 day
+		
+	}
+	else if(is_null($householdincome))
+	{
+		
+		$speech = "how many members do you have  in your household, including you?";
+		setcookie('householdincome', $householdincome, time() + (86400 * 30), "/"); // 86400 = 1 day
+		
+	}
+	else if(is_null($householdnumber))
+	{
+		$speech	= "Thanks" .$_COOKIE[$firstname]. "based on the information provided by you, you have a" .$householdnumber ."member household with". $_COOKIE[$householdincome] . "$ annual income, Your application has been created, for future references, your application number is".$applicationnumber. "Someone from our office will connect with you soon. Have a great day ahead!";
+		
+	}
+	else{
+	
+		$speech = "Sorry, I didnt get that. Please ask me something else.";
+	
 	}
 
 	$response = new \stdClass();
